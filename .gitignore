@@ -1,3 +1,8 @@
 credentials.csv
 *.csv
 *.cfg
+
+/solutions/*
+
+# excluding virtual env
+/udacity_dend/*
