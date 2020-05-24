@@ -2,7 +2,9 @@ credentials.csv
 *.csv
 *.cfg
 
-/solutions/*
 
-# excluding virtual env
+
+# excluding folders
 /udacity_dend/*
+/.vscode/*
+/solutions/*
