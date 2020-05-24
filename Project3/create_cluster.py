@@ -186,16 +186,6 @@ def main():
 
     open_ports(ec2, myClusterProps, DWH_PORT)
 
-    try:
-        conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
-        cur = conn.cursor()
-        conn.close()
-
-    except Exception as e:
-        print('+'*40)
-        print(e)
-        print('+'*40)
-
 
 if __name__ == "__main__":
     main()

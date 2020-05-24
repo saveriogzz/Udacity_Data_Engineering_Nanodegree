@@ -1,5 +1,6 @@
 import configparser
 import psycopg2
+from time import time
 from sql_queries import create_table_queries, drop_table_queries
 
 
@@ -19,6 +20,7 @@ def main():
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
+    t0 = time()
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
     cur = conn.cursor()
 
@@ -26,6 +28,8 @@ def main():
     create_tables(cur, conn)
 
     conn.close()
+
+    print('Done in {t:.2f} s'.format(t=time()-t0))
 
 
 if __name__ == "__main__":

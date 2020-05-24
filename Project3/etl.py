@@ -10,7 +10,7 @@ def load_staging_tables(cur, conn):
         t1 = time()
         cur.execute(query)
         conn.commit()
-        print("    Tot time: {time:.2f}".format(time=time()-t1))
+        print("    Tot time: {time:.2f} seconds".format(time=time()-t1))
         print("="*40)
 
 
@@ -20,11 +20,12 @@ def insert_tables(cur, conn):
         t1 = time()
         cur.execute(query)
         conn.commit()
-        print("    Tot time: {time:.2f}".format(time=time()-t1))
+        print("    Tot time: {time:.2f} seconds".format(time=time()-t1))
         print("="*40)
 
 
 def main():
+    t0 = time()
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 
@@ -35,6 +36,8 @@ def main():
     insert_tables(cur, conn)
 
     conn.close()
+
+    print("Ended in: {time:.2f} seconds".format(time=time()-t0))
 
 
 if __name__ == "__main__":
