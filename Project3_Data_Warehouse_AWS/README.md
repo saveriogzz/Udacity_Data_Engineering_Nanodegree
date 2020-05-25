@@ -41,7 +41,7 @@ and four **dimension tables** composed in the following structure:
 
 The schema follows the structure representes in the following image:  
 
-![Star Schema](/images/ER.png)
+![Star Schema](./images/ER.png)
 
 ## How to use this repo:
 
