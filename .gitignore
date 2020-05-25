@@ -1,7 +1,7 @@
 credentials.csv
 *.csv
 *.cfg
-
+*.DS_STORE
 
 
 # excluding folders
