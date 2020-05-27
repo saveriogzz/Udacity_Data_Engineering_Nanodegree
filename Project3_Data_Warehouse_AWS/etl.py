@@ -5,6 +5,9 @@ from sql_queries import copy_table_queries, insert_table_queries
 
 
 def load_staging_tables(cur, conn):
+    """
+    Function that load the data directly from JSON formats into the S3 buckets.
+    """
     for query in copy_table_queries:
         print('Executing: {}'.format(query))
         t1 = time()
@@ -15,6 +18,10 @@ def load_staging_tables(cur, conn):
 
 
 def insert_tables(cur, conn):
+    """
+    Function that insert data from the two staging tables
+    into the five final tables.
+    """
     for query in insert_table_queries:
         print('Executing: {}'.format(query))
         t1 = time()

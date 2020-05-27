@@ -5,12 +5,20 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
+    """
+    Function that drops, if exist,
+    tables that are going to be created in the next step.
+    """
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+    """
+    Function that creates tables
+    by iterating the queries in the query script.
+    """
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()

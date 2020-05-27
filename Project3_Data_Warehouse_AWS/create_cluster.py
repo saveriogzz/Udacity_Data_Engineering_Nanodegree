@@ -9,9 +9,9 @@ import configparser
 
 
 def create_iam_role(iam, DWH_IAM_ROLE_NAME):
-    '''
+    """
     Creates IAM Role for Redshift, to allow it to use AWS services
-    '''
+    """
 
     try:
         print("1.1 Creating a new IAM Role") 
@@ -47,9 +47,9 @@ def create_iam_role(iam, DWH_IAM_ROLE_NAME):
 
 def create_cluster(redshift, roleArn, DWH_CLUSTER_TYPE, DWH_NODE_TYPE, DWH_NUM_NODES, 
                     DWH_DB, DWH_CLUSTER_IDENTIFIER, DWH_DB_USER, DWH_DB_PASSWORD):
-    '''
+    """
     Creates Redshift cluster
-    '''
+    """
 
     try:
         response = redshift.create_cluster(        
@@ -74,9 +74,9 @@ def create_cluster(redshift, roleArn, DWH_CLUSTER_TYPE, DWH_NODE_TYPE, DWH_NUM_N
 
 
 def get_cluster_props(redshift, DWH_CLUSTER_IDENTIFIER):
-    '''
+    """
     Retrieve Redshift clusters properties
-    '''
+    """
 
     def prettyRedshiftProps(props):
         keysToShow = ["ClusterIdentifier", "NodeType", "ClusterStatus", "MasterUsername", "DBName", "Endpoint", "NumberOfNodes", 'VpcId']
@@ -100,9 +100,9 @@ def get_cluster_props(redshift, DWH_CLUSTER_IDENTIFIER):
 
 
 def open_ports(ec2, myClusterProps, DWH_PORT):
-    '''
+    """
     Update clusters security group to allow access through redshift port
-    '''
+    """
 
     try:
         vpc = ec2.Vpc(id=myClusterProps['VpcId'])
