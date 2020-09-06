@@ -9,3 +9,5 @@ credentials.csv
 /.vscode/*
 /solutions/*
 /__pycache__/*
+*.pem
+rootkey.csv
