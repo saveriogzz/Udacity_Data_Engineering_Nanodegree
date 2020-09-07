@@ -37,13 +37,13 @@ def process_song_data(spark, input_data, output_data):
     """
     
     # get filepath to song data file
-    songs_data = input_data + "song_data/*/*/*/*.json"
+    songs_data = input_data + "song_data/A/A/A/*.json"
     
     # read song data file and create temp view to query it
     df = spark.read.json(songs_data, mode='PERMISSIVE', columnNameOfCorruptRecord='corrupt_record').drop_duplicates()
 
     # extract columns to create songs table
-    songs_table = df.select("song_id","title","artist_id","year","duration").drop_duplicates()
+    songs_table = df.select("song_id","title","artist_id","year","duration").distinct()
     
     # write songs table to parquet files partitioned by year and artist
     songs_table.write.mode('overwrite').partitionBy("year","artist_id").parquet(output_data + "songs/songs.parquet")
@@ -53,6 +53,8 @@ def process_song_data(spark, input_data, output_data):
     
     # write artists table to parquet files
     artists_table.write.mode('overwrite').parquet(output_data + "artists/artists.parquet")
+
+    df.createOrReplaceTempView("song_df_table")
 
 
 def process_log_data(spark, input_data, output_data):
@@ -97,24 +99,26 @@ def process_log_data(spark, input_data, output_data):
 
     # read in song data to use for songplays table
 #     song_df = spark.read.parquet(output_data + "songs/")
-    song_df = spark.read\
-                .format("parquet")\
-                .option("basePath", os.path.join(output_data, "songs/songs.parquet"))\
-                .load(os.path.join(output_data, "songs/*/*/"))
+    # song_df = spark.read\
+    #             .format("parquet")\
+    #             .option("basePath", os.path.join(output_data, "songs/songs.parquet"))\
+    #             .load(os.path.join(output_data, "songs/*/*/"))
+
+    song_df = spark.sql("SELECT DISTINCT song_id, title, artist_id, artist_name FROM song_df_table")
 
     # extract columns from joined song and log datasets to create songplays table 
     songplays_table = df.join(song_df, df.song == song_df.title, how = 'inner')\
+                        .withColumnRenamed("start_time", "start_time_s")\
                         .withColumn("songplay_id", monotonically_increasing_id())
                         
     
-    songplays_table = songplays_table.join(time_table, songplays_table.star_time == time_table.start_time)\
+    songplays_table = songplays_table.join(time_table, songplays_table.start_time_s == time_table.start_time)\
                                      .select(col('songplay_id'), col('start_time'), col('userId'), col('level'),
                                              col('song_id'), col('artist_id'), col('sessionId'), col('location'),
                                              col('userAgent'), col('year'), col('month'))
         
     # write songplays table to parquet files partitioned by year and month
-    songplays_table.drop_duplicates().write.mode('overwrite')\
-                                     .partitionBy("year","month").parquet(output_data + "songplays/songplays.parquet")
+    songplays_table.drop_duplicates().write.mode('overwrite').partitionBy("year","month").parquet(output_data + "songplays/songplays.parquet")
     
 
 def main():
