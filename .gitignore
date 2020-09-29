@@ -2,7 +2,9 @@ credentials.csv
 *.csv
 *.cfg
 *.DS_STORE
-
+*.mp4
+.env
+Data_pipeline_Apache_Airflow_on_AWSRedshift.ipynb
 
 # excluding folders
 /udacity_dend/*
