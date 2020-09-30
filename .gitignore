@@ -1,3 +1,4 @@
+.gitignore
 credentials.csv
 *.csv
 *.cfg
