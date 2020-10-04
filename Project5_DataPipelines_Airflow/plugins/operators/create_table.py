@@ -21,4 +21,4 @@ class CreateTableOperator(BaseOperator):
         redshift = PostgresHook(postgres_conn_id = self.redshift_conn_id)
         redshift.run(self.query)
         
-        self.log.info("-------> Tables created ")
+        self.log.info("-------> Tables created")

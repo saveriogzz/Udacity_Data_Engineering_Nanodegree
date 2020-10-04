@@ -61,6 +61,3 @@ class StageToRedshiftOperator(BaseOperator):
 
         self.log.info(f"------> Table {self.table} staged.")
 
-        
-
-
